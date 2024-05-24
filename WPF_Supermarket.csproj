@@ -143,6 +143,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Manufacturer.cs" />
+    <Compile Include="Models\Offer.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductReceipt.cs" />
+    <Compile Include="Models\Receipt.cs" />
+    <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="MVVM\RelayCommand.cs" />
     <Compile Include="MVVM\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

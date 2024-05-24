@@ -150,6 +150,7 @@
     <Compile Include="Models\ProductReceipt.cs" />
     <Compile Include="Models\Receipt.cs" />
     <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\SupermarketDBContext.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="MVVM\RelayCommand.cs" />
     <Compile Include="MVVM\ViewModelBase.cs" />

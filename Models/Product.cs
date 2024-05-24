@@ -16,7 +16,7 @@ namespace WPF_Supermarket.Models
         public virtual Category Category { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
         public virtual ICollection<Stock> Inventory { get; set; }
-        public virtual ICollection<Receipt> Receipts { get; set; }
+        public virtual ICollection<ProductReceipt> ProductReceipts { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
     }
 }

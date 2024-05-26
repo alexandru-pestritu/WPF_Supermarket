@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wpf_Checkers.MVVM
+namespace Wpf_Supermarket.MVVM
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

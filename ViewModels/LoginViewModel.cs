@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Wpf_Supermarket.MVVM;
+using WPF_Supermarket.Models;
 using WPF_Supermarket.Services;
 using WPF_Supermarket.Views;
 
@@ -46,18 +48,28 @@ namespace WPF_Supermarket.ViewModels
 
         private void OnLogin(object parameter)
         {
-            // Implementare logică autentificare
-            if (Username == "admin")
+            using (var context = new SupermarketDBContext())
             {
-                _navigationService.Navigate(new AdminDashboardPage(_navigationService));
-            }
-            else if (Username == "cashier")
-            {
-                _navigationService.Navigate(new CashierDashboardPage(_navigationService));
-            }
-            else
-            {
-                // Mesaj de eroare autentificare
+                var user = context.Users
+                    .FirstOrDefault(u => u.Name == Username && u.Password == Password);
+
+                if (user != null)
+                {
+                    MessageBox.Show($"Successful login for user {user.Name} with role {user.UserType}.");
+
+                        if (user.UserType == "Admin")
+                        {
+                            _navigationService.Navigate(new AdminDashboardPage(_navigationService));
+                        }
+                        else if (user.UserType == "Cashier")
+                        {
+                            _navigationService.Navigate(new CashierDashboardPage(_navigationService));
+                        }
+                }
+                else
+                {
+                    MessageBox.Show("Incorrect username and/or password.");
+                }
             }
         }
     }

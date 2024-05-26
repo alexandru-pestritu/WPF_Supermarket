@@ -21,7 +21,7 @@ namespace WPF_Supermarket.ViewModels
         public LoginViewModel(NavigationService navigationService)
         {
             _navigationService = navigationService;
-            LoginCommand = new RelayCommand(OnLogin);
+            LoginCommand = new RelayCommand(_ => OnLogin(), _ => CanLogin());
         }
 
         public string Username
@@ -46,7 +46,7 @@ namespace WPF_Supermarket.ViewModels
 
         public ICommand LoginCommand { get; }
 
-        private void OnLogin(object parameter)
+        private void OnLogin()
         {
             using (var context = new SupermarketDBContext())
             {
@@ -55,7 +55,6 @@ namespace WPF_Supermarket.ViewModels
 
                 if (user != null)
                 {
-                    MessageBox.Show($"Successful login for user {user.Name} with role {user.UserType}.");
 
                         if (user.UserType == "Admin")
                         {
@@ -71,6 +70,11 @@ namespace WPF_Supermarket.ViewModels
                     MessageBox.Show("Incorrect username and/or password.");
                 }
             }
+        }
+
+        private bool CanLogin()
+        {
+            return Username!=null && Password!=null;
         }
     }
 }

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Supermarket"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Supermarket Management" Height="450" Width="800"
+        Icon="../Images/icon.png">
     <Grid>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
     </Grid>

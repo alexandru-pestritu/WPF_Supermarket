@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:WPF_Supermarket.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="UsersPage">
+      Title="UsersPage"
+      Background="#f5f5f5">
 
     <Grid>
         <TextBlock Text="Users Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>

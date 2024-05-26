@@ -44,7 +44,7 @@ namespace WPF_Supermarket.Controls
             set
             {
                 passwordDisplay = value;
-                passwordBox.Text = new string('*', passwordDisplay.Length);
+                passwordBox.Text = new string('•', passwordDisplay.Length);
             }
         }
 

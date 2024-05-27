@@ -51,5 +51,10 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
                 _context.SaveChanges();
             }
         }
+
+        public IEnumerable<Product> GetProductsByManufacturer(int manufacturerId)
+        {
+            return _context.Products.Include("Category").Where(p => p.ManufacturerId == manufacturerId).ToList();
+        }
     }
 }

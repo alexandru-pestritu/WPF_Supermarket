@@ -36,9 +36,26 @@
                 <ComboBox ItemsSource="{Binding Countries}" SelectedValue="{Binding CurrentManufacturer.OriginCountry}" Margin="10"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
                     <Button Content="Add Manufacturer" Command="{Binding AddManufacturerCommand}" Margin="5"/>
-                    <Button Content="Edit Manufacturer" Command="{Binding EditManufacturerCommand}" Margin="5"/>
-                    <Button Content="Delete Manufacturer" Command="{Binding DeleteManufacturerCommand}" Margin="5"/>
+                    <Button Content="Edit Manufacturer" Command="{Binding EditManufacturerCommand}" Margin="5" IsEnabled="{Binding IsManufacturerSelected}"/>
+                    <Button Content="Delete Manufacturer" Command="{Binding DeleteManufacturerCommand}" Margin="5" IsEnabled="{Binding IsManufacturerSelected}"/>
                 </StackPanel>
+
+                <TextBlock Text="Products by Manufacturer" FontSize="18" FontWeight="Bold" Margin="10"/>
+                <ListView ItemsSource="{Binding Products}" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Product Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                            <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category.Name}" Width="200"/>
+                            <GridViewColumn Header="Barcode">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding BarcodeImage}" Height="30"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </StackPanel>
         </Grid>
     </ScrollViewer>

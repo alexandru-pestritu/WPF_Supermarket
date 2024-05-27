@@ -16,7 +16,9 @@ namespace WPF_Supermarket.ViewModels
     {
         private readonly ManufacturerBLL _manufacturerBLL;
         private readonly CountryService _countryService;
+        private readonly ProductBLL _productBLL;
         private ObservableCollection<Manufacturer> _manufacturers;
+        private ObservableCollection<Product> _products;
         private Manufacturer _selectedManufacturer;
         private Manufacturer _currentManufacturer;
         private bool _isManufacturerSelected;
@@ -29,14 +31,16 @@ namespace WPF_Supermarket.ViewModels
         public ManufacturersViewModel()
         {
             _manufacturerBLL = new ManufacturerBLL();
+            _productBLL = new ProductBLL();
             _countryService = new CountryService();
             _manufacturers = new ObservableCollection<Manufacturer>();
+            _products = new ObservableCollection<Product>();
             _currentManufacturer = new Manufacturer();
             LoadManufacturers();
 
-            AddManufacturerCommand = new RelayCommand(_ => AddManufacturer(), _ => !IsManufacturerSelected);
-            EditManufacturerCommand = new RelayCommand(_ => EditManufacturer(), _ => IsManufacturerSelected);
-            DeleteManufacturerCommand = new RelayCommand(_ => DeleteManufacturer(), _ => IsManufacturerSelected);
+            AddManufacturerCommand = new RelayCommand(_ => AddManufacturer(), _ => CanAddManufacturer);
+            EditManufacturerCommand = new RelayCommand(_ => EditManufacturer(), _ => CanEditOrDeleteManufacturer);
+            DeleteManufacturerCommand = new RelayCommand(_ => DeleteManufacturer(), _ => CanEditOrDeleteManufacturer);
             LoadCountriesAsync();
         }
 
@@ -46,6 +50,16 @@ namespace WPF_Supermarket.ViewModels
             set
             {
                 _manufacturers = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Product> Products
+        {
+            get => _products;
+            set
+            {
+                _products = value;
                 OnPropertyChanged();
             }
         }
@@ -67,11 +81,13 @@ namespace WPF_Supermarket.ViewModels
                         OriginCountry = _selectedManufacturer.OriginCountry,
                         Products = _selectedManufacturer.Products
                     };
+                    LoadProductsByManufacturer(_selectedManufacturer.Id);
                     IsManufacturerSelected = true;
                 }
                 else
                 {
                     CurrentManufacturer = new Manufacturer();
+                    Products.Clear();
                     IsManufacturerSelected = false;
                 }
 
@@ -173,6 +189,20 @@ namespace WPF_Supermarket.ViewModels
             AddManufacturerCommand.RaiseCanExecuteChanged();
             EditManufacturerCommand.RaiseCanExecuteChanged();
             DeleteManufacturerCommand.RaiseCanExecuteChanged();
+        }
+
+        private bool CanAddManufacturer => !IsManufacturerSelected;
+
+        private bool CanEditOrDeleteManufacturer => IsManufacturerSelected;
+
+        private void LoadProductsByManufacturer(int manufacturerId)
+        {
+            var products = _manufacturerBLL.GetProductsByManufacturer(manufacturerId);
+            Products.Clear();
+            foreach (var product in products)
+            {
+                Products.Add(product);
+            }
         }
     }
 }

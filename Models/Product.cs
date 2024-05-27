@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Media.Imaging;
+using System.ComponentModel.DataAnnotations.Schema;
+using WPF_Supermarket.Services;
 
 namespace WPF_Supermarket.Models
 {
@@ -18,5 +23,19 @@ namespace WPF_Supermarket.Models
         public virtual ICollection<Stock> Inventory { get; set; }
         public virtual ICollection<ProductReceipt> ProductReceipts { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
+
+        [NotMapped]
+        public BitmapImage BarcodeImage
+        {
+            get
+            {
+                if (_barcodeImage == null && !string.IsNullOrEmpty(Barcode))
+                {
+                    _barcodeImage = BarcodeService.GenerateBarcodeImage(Barcode);
+                }
+                return _barcodeImage;
+            }
+        }
+        private BitmapImage _barcodeImage;
     }
 }

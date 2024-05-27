@@ -4,12 +4,47 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:WPF_Supermarket.Views"
+      xmlns:converters="clr-namespace:WPF_Supermarket.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="UsersPage"
       Background="#f5f5f5">
 
+    <Page.Resources>
+        <converters:NullToBoolConverter x:Key="NullToBoolConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
+
     <Grid>
-        <TextBlock Text="Users Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Background="LightGray">
+            <TextBlock Text="User Management" FontSize="20" FontWeight="Bold" Margin="10"/>
+            <ListView ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="10">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
+                        <GridViewColumn Header="User Type" DisplayMemberBinding="{Binding UserType}" Width="Auto"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" >
+            <TextBlock Text="User Details" FontSize="16" FontWeight="Bold" Margin="10"/>
+            <TextBox Text="{Binding CurrentUser.Name}" Margin="5"/>
+            <TextBox Text="{Binding CurrentUser.Password}" Margin="5"/>
+            <ComboBox SelectedValue="{Binding CurrentUser.UserType}" SelectedValuePath="Content" Margin="5" >
+                <ComboBoxItem Content="Admin"/>
+                <ComboBoxItem Content="Cashier"/>
+            </ComboBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                <Button Content="Add User" Command="{Binding AddUserCommand}" Margin="5"/>
+                <Button Content="Edit User" Command="{Binding EditUserCommand}" Margin="5"/>
+                <Button Content="Delete User" Command="{Binding DeleteUserCommand}" Margin="5"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>

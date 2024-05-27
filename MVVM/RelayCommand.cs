@@ -32,5 +32,10 @@ namespace Wpf_Supermarket.MVVM
         {
             execute(parameter);
         }
+
+        public void RaiseCanExecuteChanged()
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
     }
 }

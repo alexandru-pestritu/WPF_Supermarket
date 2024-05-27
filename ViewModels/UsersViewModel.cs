@@ -8,6 +8,7 @@ using Wpf_Supermarket.MVVM;
 using WPF_Supermarket.Models.BusinessLayerLogic;
 using WPF_Supermarket.Models;
 using System.Windows.Input;
+using System.Windows;
 
 namespace WPF_Supermarket.ViewModels
 {
@@ -105,14 +106,17 @@ namespace WPF_Supermarket.ViewModels
 
         private void AddUser()
         {
-            _userBLL.AddUser(CurrentUser);
-            LoadUsers();
-            CurrentUser = new User();
+            if(ValidateUser(CurrentUser))
+            {
+                _userBLL.AddUser(CurrentUser);
+                LoadUsers();
+                CurrentUser = new User();
+            }
         }
 
         private void EditUser()
         {
-            if (SelectedUser != null)
+            if (SelectedUser != null && ValidateUser(CurrentUser))
             {
                 _userBLL.UpdateUser(CurrentUser);
                 LoadUsers();
@@ -130,6 +134,16 @@ namespace WPF_Supermarket.ViewModels
                 CurrentUser = new User();
                 IsUserSelected = false;
             }
+        }
+
+        private bool ValidateUser(User user)
+        {
+            if (string.IsNullOrWhiteSpace(user.Name) || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.UserType))
+            {
+                MessageBox.Show("All fields must be filled out.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
         }
 
         private void UpdateCommandStates()

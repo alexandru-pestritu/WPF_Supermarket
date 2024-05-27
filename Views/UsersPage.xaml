@@ -15,37 +15,42 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <TextBlock Text="User Management" FontSize="20" FontWeight="Bold" Margin="10"/>
-            <ListView ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="10">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
-                        <GridViewColumn Header="User Type" DisplayMemberBinding="{Binding UserType}" Width="Auto"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </StackPanel>
-
-        <StackPanel Grid.Row="1" >
-            <TextBlock Text="User Details" FontSize="16" FontWeight="Bold" Margin="10"/>
-            <TextBox Text="{Binding CurrentUser.Name}" Margin="5"/>
-            <TextBox Text="{Binding CurrentUser.Password}" Margin="5"/>
-            <ComboBox SelectedValue="{Binding CurrentUser.UserType}" SelectedValuePath="Content" Margin="5" >
-                <ComboBoxItem Content="Admin"/>
-                <ComboBoxItem Content="Cashier"/>
-            </ComboBox>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
-                <Button Content="Add User" Command="{Binding AddUserCommand}" Margin="5"/>
-                <Button Content="Edit User" Command="{Binding EditUserCommand}" Margin="5"/>
-                <Button Content="Delete User" Command="{Binding DeleteUserCommand}" Margin="5"/>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="User Management" FontSize="20" FontWeight="Bold" Margin="10"/>
+                <ListView ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
+                            <GridViewColumn Header="User Type" DisplayMemberBinding="{Binding UserType}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </StackPanel>
-        </StackPanel>
-    </Grid>
+
+            <StackPanel Grid.Row="1" >
+                <TextBlock Text="User Details" FontSize="18" FontWeight="Bold" Margin="10"/>
+                <TextBlock Text="Name" Margin="10 10 0 0" FontSize="14"/>
+                <TextBox Text="{Binding CurrentUser.Name}" Margin="10" Height="20"/>
+                <TextBlock Text="Password" Margin="10 0 0 0" FontSize="14"/>
+                <TextBox Text="{Binding CurrentUser.Password}" Margin="10" Height="20"/>
+                <TextBlock Text="User Type" Margin="10 0 0 0" FontSize="14"/>
+                <ComboBox SelectedValue="{Binding CurrentUser.UserType}" SelectedValuePath="Content" Margin="10" >
+                    <ComboBoxItem Content="Admin"/>
+                    <ComboBoxItem Content="Cashier"/>
+                </ComboBox>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                    <Button Content="Add User" Command="{Binding AddUserCommand}" Margin="5"/>
+                    <Button Content="Edit User" Command="{Binding EditUserCommand}" Margin="5"/>
+                    <Button Content="Delete User" Command="{Binding DeleteUserCommand}" Margin="5"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>

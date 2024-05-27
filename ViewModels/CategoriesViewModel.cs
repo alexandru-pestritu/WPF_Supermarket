@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WPF_Supermarket.Models.BusinessLayerLogic;
 using WPF_Supermarket.Models;
 using Wpf_Supermarket.MVVM;
+using System.Windows;
 
 namespace WPF_Supermarket.ViewModels
 {
@@ -104,9 +105,12 @@ namespace WPF_Supermarket.ViewModels
 
         private void AddCategory()
         {
-            _categoriesBLL.AddCategory(CurrentCategory);
-            LoadCategories();
-            CurrentCategory = new Category();
+            if(ValidateCategory(CurrentCategory))
+            {
+                _categoriesBLL.AddCategory(CurrentCategory);
+                LoadCategories();
+                CurrentCategory = new Category();
+            }
         }
 
         private void EditCategory()
@@ -122,13 +126,23 @@ namespace WPF_Supermarket.ViewModels
 
         private void DeleteCategory()
         {
-            if (SelectedCategory != null)
+            if (SelectedCategory != null && ValidateCategory(CurrentCategory))
             {
                 _categoriesBLL.DeleteCategory(SelectedCategory.Id);
                 LoadCategories();
                 CurrentCategory = new Category();
                 IsCategorySelected = false;
             }
+        }
+
+        private bool ValidateCategory(Category category)
+        {
+            if (string.IsNullOrWhiteSpace(category.Name))
+            {
+                MessageBox.Show("Category name must be filled out.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
         }
 
         private void UpdateCommandStates()

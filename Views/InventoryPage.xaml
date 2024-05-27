@@ -4,11 +4,60 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:WPF_Supermarket.Views"
+      xmlns:converters="clr-namespace:WPF_Supermarket.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="InventoryPage">
+      Title="InventoryPage"
+      Background="#f5f5f5">
 
-    <Grid>
-        <TextBlock Text="Inventory Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-    </Grid>
+    <Page.Resources>
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" >
+                <TextBlock Text="Stocks Management" FontSize="20" FontWeight="Bold" Margin="10"/>
+                <ListView ItemsSource="{Binding Stocks}" SelectedItem="{Binding SelectedStock}" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Product" DisplayMemberBinding="{Binding Product.Name}" Width="150"/>
+                            <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="100"/>
+                            <GridViewColumn Header="Measure Unit" DisplayMemberBinding="{Binding MeasureUnit}" Width="100"/>
+                            <GridViewColumn Header="Supply Date" DisplayMemberBinding="{Binding SupplyDate}" Width="150"/>
+                            <GridViewColumn Header="Expiry Date" DisplayMemberBinding="{Binding ExpiryDate}" Width="150"/>
+                            <GridViewColumn Header="Purchase Price" DisplayMemberBinding="{Binding PurchasePrice}" Width="100"/>
+                            <GridViewColumn Header="Selling Price" DisplayMemberBinding="{Binding SellingPrice}" Width="100"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="Stock Details" FontSize="18" FontWeight="Bold" Margin="10"/>
+                <TextBlock Text="Product" Margin="10 10 0 0" FontSize="14"/>
+                <ComboBox ItemsSource="{Binding Products}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding CurrentStock.ProductId}" Margin="10"/>
+                <TextBlock Text="Quantity" Margin="10 0 0 0" FontSize="14"/>
+                <TextBox Text="{Binding CurrentStock.Quantity}" Margin="10"/>
+                <TextBlock Text="Measure Unit" Margin="10 0 0 0" FontSize="14"/>
+                <TextBox Text="{Binding CurrentStock.MeasureUnit}" Margin="10"/>
+                <TextBlock Text="Expiry Date" Margin="10 0 0 0" FontSize="14"/>
+                <DatePicker SelectedDate="{Binding CurrentStock.ExpiryDate}" Margin="10"/>
+                <TextBlock Text="Purchase Price" Margin="10 0 0 0" FontSize="14"/>
+                <TextBox Text="{Binding CurrentStock.PurchasePrice}" Margin="10" IsReadOnly="{Binding IsStockSelected}"/>
+                <TextBlock Text="Selling Price" Margin="10 0 0 0" FontSize="14"/>
+                <TextBox Text="{Binding CurrentStock.SellingPrice}" Margin="10" IsReadOnly="{Binding IsStockSelected, Converter={StaticResource InverseBoolConverter}}"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                    <Button Content="Add Stock" Command="{Binding AddStockCommand}" Margin="5"/>
+                    <Button Content="Edit Stock" Command="{Binding EditStockCommand}" Margin="5"/>
+                    <Button Content="Delete Stock" Command="{Binding DeleteStockCommand}" Margin="5"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>

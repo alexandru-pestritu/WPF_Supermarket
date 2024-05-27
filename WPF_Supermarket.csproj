@@ -152,10 +152,12 @@
       <DependentUpon>PasswordTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
     <Compile Include="Models\BusinessLayerLogic\CategoriesBLL.cs" />
     <Compile Include="Models\BusinessLayerLogic\ManufacturerBLL.cs" />
     <Compile Include="Models\BusinessLayerLogic\ProductBLL.cs" />
+    <Compile Include="Models\BusinessLayerLogic\StockBLL.cs" />
     <Compile Include="Models\BusinessLayerLogic\UserBLL.cs" />
     <Compile Include="Services\BarcodeService.cs" />
     <Compile Include="Services\CountryService.cs" />
@@ -181,6 +183,7 @@
     <Compile Include="Views\ReceiptsPage.xaml.cs">
       <DependentUpon>ReceiptsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\StockViewModel.cs" />
     <Compile Include="Views\UsersPage.xaml.cs">
       <DependentUpon>UsersPage.xaml</DependentUpon>
     </Compile>
@@ -285,6 +288,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="profit.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

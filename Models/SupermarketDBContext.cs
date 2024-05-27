@@ -38,6 +38,7 @@ namespace WPF_Supermarket.Models
                 .HasForeignKey(product => product.ManufacturerId);
 
             modelBuilder.Entity<Stock>()
+                .ToTable("Inventory")
                 .HasRequired(stock => stock.Product)
                 .WithMany(product => product.Inventory)
                 .HasForeignKey(stock => stock.ProductId);

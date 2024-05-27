@@ -6,9 +6,53 @@
       xmlns:local="clr-namespace:WPF_Supermarket.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ProductsPage">
+      Title="ProductsPage"
+      Background="#f5f5f5">
 
-    <Grid>
-        <TextBlock Text="Products" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-    </Grid>
+    <Page.Resources>
+        <DataTemplate x:Key="BarcodeTemplate">
+            <Image Source="{Binding BarcodeImage}" Height="50"/>
+        </DataTemplate>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Products Management" FontSize="20" FontWeight="Bold" Margin="10"/>
+                <ListView ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                            <GridViewColumn Header="Barcode" CellTemplate="{StaticResource BarcodeTemplate}" Width="150"/>
+                            <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category.Name}" Width="150"/>
+                            <GridViewColumn Header="Manufacturer" DisplayMemberBinding="{Binding Manufacturer.Name}" Width="150"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="Product Details" FontSize="16" FontWeight="Bold" Margin="10"/>
+                <TextBlock Text="Name" Margin="10 10 0 0" FontSize="14"/>
+                <TextBox Text="{Binding CurrentProduct.Name}" Margin="10"/>
+                <TextBlock Text="Barcode" Margin="10 0 0 0" FontSize="14"/>
+                <TextBox Text="{Binding CurrentProduct.Barcode}" Margin="10"/>
+                <TextBlock Text="Category" Margin="10 0 0 0" FontSize="14"/>
+                <ComboBox ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding CurrentProduct.CategoryId}" Margin="10"/>
+                <TextBlock Text="Manufacturer" Margin="10 0 0 0" FontSize="14"/>
+                <ComboBox ItemsSource="{Binding Manufacturers}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding CurrentProduct.ManufacturerId}" Margin="10"/>
+                <Image Source="{Binding CurrentProduct.BarcodeImage}" Height="50" Width="300" Margin="5"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                    <Button Content="Add Product" Command="{Binding AddProductCommand}" Margin="5"/>
+                    <Button Content="Edit Product" Command="{Binding EditProductCommand}" Margin="5"/>
+                    <Button Content="Delete Product" Command="{Binding DeleteProductCommand}" Margin="5"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>

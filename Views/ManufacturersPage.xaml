@@ -18,7 +18,7 @@
 
             <StackPanel Grid.Row="0">
                 <TextBlock Text="Manufacturers Management" FontSize="20" FontWeight="Bold" Margin="10"/>
-                <ListView ItemsSource="{Binding Manufacturers}" SelectedItem="{Binding SelectedManufacturer}" Margin="10">
+                <ListView ItemsSource="{Binding Manufacturers}" SelectedItem="{Binding SelectedManufacturer}" Margin="10" Height="200">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
@@ -41,7 +41,7 @@
                 </StackPanel>
 
                 <TextBlock Text="Products by Manufacturer" FontSize="18" FontWeight="Bold" Margin="10"/>
-                <ListView ItemsSource="{Binding Products}" Margin="10">
+                <ListView ItemsSource="{Binding Products}" Margin="10" Height="200">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Product Name" DisplayMemberBinding="{Binding Name}" Width="200"/>

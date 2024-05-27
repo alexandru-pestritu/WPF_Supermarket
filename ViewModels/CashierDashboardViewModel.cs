@@ -21,7 +21,7 @@ namespace WPF_Supermarket.ViewModels
             _navigationService = navigationService;
             _frame = frame;
 
-            NavigateToProductsCommand = new RelayCommand(_ => NavigateTo(new ProductsPage()));
+            NavigateToProductsCommand = new RelayCommand(_ => NavigateTo(new ProductsSearchPage()));
             NavigateToReceiptsCommand = new RelayCommand(_ => NavigateTo(new ReceiptsPage()));
             LogoutCommand = new RelayCommand(_ => Logout());
         }

@@ -51,5 +51,24 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
                 _context.SaveChanges();
             }
         }
+
+        public IEnumerable<Product> SearchProducts(string name, string barcode,  int? manufacturerId, int? categoryId)
+        {
+            var query = _context.Products.AsQueryable();
+
+            if (!string.IsNullOrEmpty(name))
+                query = query.Where(p => p.Name.Contains(name));
+
+            if (!string.IsNullOrEmpty(barcode))
+                query = query.Where(p => p.Barcode.Contains(barcode));
+
+            if (manufacturerId.HasValue)
+                query = query.Where(p => p.ManufacturerId == manufacturerId.Value);
+
+            if (categoryId.HasValue)
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+
+            return query.Include(p => p.Category).Include(p => p.Manufacturer).Include(p => p.Inventory).ToList();
+        }
     }
 }

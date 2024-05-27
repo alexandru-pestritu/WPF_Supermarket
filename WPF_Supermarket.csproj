@@ -161,8 +161,10 @@
     <Compile Include="Models\BusinessLayerLogic\UserBLL.cs" />
     <Compile Include="Services\BarcodeService.cs" />
     <Compile Include="Services\CountryService.cs" />
+    <Compile Include="Services\ReceiptManager.cs" />
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\ManufacturersViewModel.cs" />
+    <Compile Include="ViewModels\ProductsSearchViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="Views\CategoriesPage.xaml.cs">

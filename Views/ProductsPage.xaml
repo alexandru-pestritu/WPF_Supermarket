@@ -24,7 +24,7 @@
 
             <StackPanel Grid.Row="0">
                 <TextBlock Text="Products Management" FontSize="20" FontWeight="Bold" Margin="10"/>
-                <ListView ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Margin="10">
+                <ListView ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Margin="10" Height="300">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>

@@ -6,9 +6,50 @@
       xmlns:local="clr-namespace:WPF_Supermarket.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ProductsSearchPage">
+      Title="ProductsSearchPage"
+      Background="#f5f5f5">
 
-    <Grid>
-        <TextBlock Text="Products Search Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Margin="10">
+            <StackPanel>
+                <TextBlock Text="Search Products" FontSize="20" FontWeight="Bold" Margin="10"/>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Name" Margin="0,0,0,5"/>
+                        <TextBox Width="200" Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Barcode" Margin="0,0,0,5"/>
+                        <TextBox Width="200" Text="{Binding SearchBarcode, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Manufacturer" Margin="0,0,0,5"/>
+                        <ComboBox Width="200" ItemsSource="{Binding Manufacturers}" SelectedItem="{Binding SelectedManufacturer, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name"/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Category" Margin="0,0,0,5"/>
+                        <ComboBox Width="200" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name"/>
+                    </StackPanel>
+                </StackPanel>
+                <Button Content="Search" Command="{Binding SearchCommand}" Margin="10"/>
+
+                <ListView ItemsSource="{Binding SearchResults}" SelectedItem="{Binding SelectedProduct}" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                            <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Barcode}" Width="150"/>
+                            <GridViewColumn Header="Manufacturer" DisplayMemberBinding="{Binding Manufacturer.Name}" Width="150"/>
+                            <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category.Name}" Width="150"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Quantity" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBox Width="100" Text="{Binding ProductQuantity, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>
+                    <Button Content="Add to Receipt" Command="{Binding AddToReceiptCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>

@@ -20,11 +20,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Background="LightGray">
+        <StackPanel Grid.Row="0">
             <TextBlock Text="User Management" FontSize="20" FontWeight="Bold" Margin="10"/>
             <ListView ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="10">
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
                         <GridViewColumn Header="User Type" DisplayMemberBinding="{Binding UserType}" Width="Auto"/>
                     </GridView>

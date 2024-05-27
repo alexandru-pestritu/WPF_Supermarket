@@ -6,9 +6,40 @@
       xmlns:local="clr-namespace:WPF_Supermarket.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ManufacturersPage">
+      Title="ManufacturersPage"
+      Background="#f5f5f5">
 
-    <Grid>
-        <TextBlock Text="Manufacturers Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Manufacturers Management" FontSize="20" FontWeight="Bold" Margin="10"/>
+                <ListView ItemsSource="{Binding Manufacturers}" SelectedItem="{Binding SelectedManufacturer}" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                            <GridViewColumn Header="Origin Country" DisplayMemberBinding="{Binding OriginCountry}" Width="150"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="Manufacturer Details" FontSize="18" FontWeight="Bold" Margin="10"/>
+                <TextBlock Text="Name" Margin="10 10 0 0" FontSize="14"/>
+                <TextBox Text="{Binding CurrentManufacturer.Name}" Margin="10" Height="20"/>
+                <TextBlock Text="Origin Country" Margin="10 0 0 0" FontSize="14"/>
+                <ComboBox ItemsSource="{Binding Countries}" SelectedValue="{Binding CurrentManufacturer.OriginCountry}" Margin="10"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                    <Button Content="Add Manufacturer" Command="{Binding AddManufacturerCommand}" Margin="5"/>
+                    <Button Content="Edit Manufacturer" Command="{Binding EditManufacturerCommand}" Margin="5"/>
+                    <Button Content="Delete Manufacturer" Command="{Binding DeleteManufacturerCommand}" Margin="5"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>

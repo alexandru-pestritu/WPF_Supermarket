@@ -10,7 +10,7 @@ namespace WPF_Supermarket.Models
 {
     public class SupermarketDBContext : DbContext
     {
-        public SupermarketDBContext() : base("name=mvpDB")
+        public SupermarketDBContext() : base("name=supermarketDB")
         {
             Database.Log = sql => Debug.WriteLine(sql);
         }
@@ -28,9 +28,9 @@ namespace WPF_Supermarket.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
-               .HasRequired(product => product.Category)
-               .WithMany(category => category.Products)
-               .HasForeignKey(product => product.CategoryId);
+              .HasRequired(product => product.Category)
+              .WithMany(category => category.Products)
+              .HasForeignKey(product => product.CategoryId);
 
             modelBuilder.Entity<Product>()
                 .HasRequired(product => product.Manufacturer)

@@ -23,7 +23,8 @@
                         <GridView>
                             <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="Auto"/>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="Auto"/>
-                            <GridViewColumn Header="Products" DisplayMemberBinding="{Binding ProductCount}" Width="Auto"/>
+                            <GridViewColumn Header="Products Count" DisplayMemberBinding="{Binding ProductCount}" Width="Auto"/>
+                            <GridViewColumn Header="Total Value" DisplayMemberBinding="{Binding TotalValue}" Width="150"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

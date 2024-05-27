@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace WPF_Supermarket.Models.BusinessLayerLogic
 {
@@ -17,7 +18,7 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
 
         public IEnumerable<Category> GetAllCategories()
         {
-            return _context.Categories.ToList();
+            return _context.Categories.Include(c => c.Products.Select(p => p.Inventory)).ToList();
         }
 
         public Category GetCategoryById(int id)

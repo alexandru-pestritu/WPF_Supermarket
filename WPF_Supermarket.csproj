@@ -162,6 +162,7 @@
     <Compile Include="Services\BarcodeService.cs" />
     <Compile Include="Services\CountryService.cs" />
     <Compile Include="Services\ReceiptManager.cs" />
+    <Compile Include="Services\UserSession.cs" />
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\ManufacturersViewModel.cs" />
     <Compile Include="ViewModels\ProductsSearchViewModel.cs" />

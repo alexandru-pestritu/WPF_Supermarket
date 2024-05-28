@@ -93,7 +93,7 @@ namespace WPF_Supermarket.ViewModels
                 set { _manufacturers = value; OnPropertyChanged(); }
             }
 
-            public bool IsProductSelected => SelectedProduct != null;
+            public bool IsProductSelected => SelectedProduct != null && ProductQuantity>0;
 
             public ICommand SearchCommand { get; }
             public ICommand AddToReceiptCommand { get; }

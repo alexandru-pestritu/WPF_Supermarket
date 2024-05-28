@@ -55,15 +55,16 @@ namespace WPF_Supermarket.ViewModels
 
                 if (user != null)
                 {
+                    UserSession.Instance.SetUser(user.Id, user.Name, user.UserType);
 
-                        if (user.UserType == "Admin")
-                        {
-                            _navigationService.Navigate(new AdminDashboardPage(_navigationService));
-                        }
-                        else if (user.UserType == "Cashier")
-                        {
-                            _navigationService.Navigate(new CashierDashboardPage(_navigationService));
-                        }
+                    if (user.UserType == "Admin")
+                    {
+                        _navigationService.Navigate(new AdminDashboardPage(_navigationService));
+                    }
+                    else if (user.UserType == "Cashier")
+                    {
+                        _navigationService.Navigate(new CashierDashboardPage(_navigationService));
+                    }
                 }
                 else
                 {

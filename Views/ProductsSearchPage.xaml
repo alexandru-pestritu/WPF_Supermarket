@@ -33,11 +33,17 @@
                 </StackPanel>
                 <Button Content="Search" Command="{Binding SearchCommand}" Margin="10"/>
 
-                <ListView ItemsSource="{Binding SearchResults}" SelectedItem="{Binding SelectedProduct}" Margin="10">
+                <ListView ItemsSource="{Binding SearchResults}" SelectedItem="{Binding SelectedProduct}" Margin="10" Height="300">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
-                            <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Barcode}" Width="150"/>
+                            <GridViewColumn Header="Barcode">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding BarcodeImage}" Height="30"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="Manufacturer" DisplayMemberBinding="{Binding Manufacturer.Name}" Width="150"/>
                             <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category.Name}" Width="150"/>
                         </GridView>

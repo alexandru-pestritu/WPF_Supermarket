@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WPF_Supermarket.Services;
+using System.Data.Entity;
 
 namespace WPF_Supermarket.Models.BusinessLayerLogic
 {
@@ -21,6 +22,11 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
             _currentReceiptItems.Add(productReceipt);
         }
 
+        public void RemoveProductFromReceipt(ProductReceipt productReceipt)
+        {
+            _currentReceiptItems.Remove(productReceipt);
+        }
+
         public void ClearReceipt()
         {
             _currentReceiptItems.Clear();
@@ -35,14 +41,12 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
         {
             using (var context = new SupermarketDBContext())
             {
-                // Ensure Cashier is not null
                 var cashier = context.Users.Find(UserSession.Instance.UserId);
                 if (cashier == null)
                 {
                     throw new InvalidOperationException("Cashier not found in the database.");
                 }
 
-                // Create new Receipt instance
                 var newReceipt = new Receipt
                 {
                     Date = receipt.Date,
@@ -52,21 +56,17 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
                     ProductReceipts = new List<ProductReceipt>()
                 };
 
-                // Add Receipt to context
                 context.Receipts.Add(newReceipt);
                 context.SaveChanges();
 
-                // Add ProductReceipts to context
                 foreach (var item in _currentReceiptItems)
                 {
-                    // Ensure Product is not null
                     var product = context.Products.Find(item.ProductId);
                     if (product == null)
                     {
                         throw new InvalidOperationException($"Product with ID {item.ProductId} not found in the database.");
                     }
 
-                    // Create new ProductReceipt instance
                     var newProductReceipt = new ProductReceipt
                     {
                         ProductId = product.Id,
@@ -84,7 +84,6 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
                 context.SaveChanges();
             }
 
-            // Clear current receipt
             ClearReceipt();
         }
 
@@ -121,6 +120,18 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
             foreach (var stock in expiredStocks)
             {
                 stock.IsActive = false;
+            }
+        }
+
+        public List<Receipt> GetReceiptsByCashier(int cashierId)
+        {
+            using (var context = new SupermarketDBContext())
+            {
+                return context.Receipts
+                    .Include(r => r.ProductReceipts.Select(pr => pr.Product)) 
+                    .Where(r => r.CashierId == cashierId)
+                    .OrderByDescending(r => r.Date)
+                    .ToList();
             }
         }
     }

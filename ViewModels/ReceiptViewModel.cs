@@ -17,13 +17,22 @@ namespace WPF_Supermarket.ViewModels
     {
         private readonly ReceiptsBLL _receiptsBLL;
         private ObservableCollection<ProductReceipt> _receiptItems;
+        private ObservableCollection<Receipt> _allReceipts;
+        private ObservableCollection<Receipt> _filteredReceipts;
+        private ProductReceipt _selectedReceiptItem;
+        private DateTime _filterDate;
         private decimal _receiptTotal;
 
         public ReceiptViewModel()
         {
             _receiptsBLL = new ReceiptsBLL();
             _receiptItems = new ObservableCollection<ProductReceipt>(_receiptsBLL.GetCurrentReceiptItems());
+            _allReceipts = new ObservableCollection<Receipt>(_receiptsBLL.GetReceiptsByCashier(UserSession.Instance.UserId));
+            _filteredReceipts = new ObservableCollection<Receipt>(_allReceipts);
+            _filterDate = DateTime.Now;
             CompleteReceiptCommand = new RelayCommand(_ => CompleteReceipt());
+            DeleteProductCommand = new RelayCommand(_ => DeleteProduct(), _ => CanDeleteProduct());
+            ClearReceiptCommand = new RelayCommand(_ => ClearReceipt());
             UpdateReceiptTotal();
         }
 
@@ -33,6 +42,24 @@ namespace WPF_Supermarket.ViewModels
             set { _receiptItems = value; OnPropertyChanged(); }
         }
 
+        public ObservableCollection<Receipt> FilteredReceipts
+        {
+            get => _filteredReceipts;
+            set { _filteredReceipts = value; OnPropertyChanged(); }
+        }
+
+        public ProductReceipt SelectedReceiptItem
+        {
+            get => _selectedReceiptItem;
+            set { _selectedReceiptItem = value; OnPropertyChanged(); }
+        }
+
+        public DateTime FilterDate
+        {
+            get => _filterDate;
+            set { _filterDate = value; OnPropertyChanged(); FilterReceipts(); }
+        }
+
         public decimal ReceiptTotal
         {
             get => _receiptTotal;
@@ -40,6 +67,8 @@ namespace WPF_Supermarket.ViewModels
         }
 
         public ICommand CompleteReceiptCommand { get; }
+        public ICommand DeleteProductCommand { get; }
+        public ICommand ClearReceiptCommand { get; }
 
         private void CompleteReceipt()
         {
@@ -60,11 +89,49 @@ namespace WPF_Supermarket.ViewModels
             _receiptsBLL.CompleteReceipt(receipt);
             ReceiptItems.Clear();
             UpdateReceiptTotal();
+
+            _allReceipts.Add(receipt);
+            FilterReceipts();
+        }
+
+        private void DeleteProduct()
+        {
+            if (SelectedReceiptItem != null)
+            {
+                _receiptsBLL.RemoveProductFromReceipt(SelectedReceiptItem);
+                ReceiptItems.Remove(SelectedReceiptItem);
+                SelectedReceiptItem = null;
+                UpdateReceiptTotal();
+            }
+        }
+
+        private bool CanDeleteProduct()
+        {
+            return SelectedReceiptItem != null;
+        }
+
+        private void ClearReceipt()
+        {
+            _receiptsBLL.ClearReceipt();
+            ReceiptItems.Clear();
+            UpdateReceiptTotal();
         }
 
         private void UpdateReceiptTotal()
         {
             ReceiptTotal = _receiptsBLL.CalculateTotal();
+        }
+
+        private void FilterReceipts()
+        {
+            if (FilterDate == default(DateTime))
+            {
+                FilteredReceipts = new ObservableCollection<Receipt>(_allReceipts);
+            }
+            else
+            {
+                FilteredReceipts = new ObservableCollection<Receipt>(_allReceipts.Where(r => r.Date.Date == FilterDate.Date));
+            }
         }
     }
 }

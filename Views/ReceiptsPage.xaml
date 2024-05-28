@@ -4,16 +4,21 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:WPF_Supermarket.Views"
+      xmlns:converters="clr-namespace:WPF_Supermarket.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ReceiptsPage"
       Background="#f5f5f5">
 
+    <Page.Resources>
+        <converters:NullToBoolConverter x:Key="NullToBoolConverter"/>
+    </Page.Resources>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <Grid Margin="10">
             <StackPanel>
                 <TextBlock Text="Current Receipt" FontSize="20" FontWeight="Bold" Margin="10"/>
-                <ListView ItemsSource="{Binding ReceiptItems}" Margin="10">
+                <ListView ItemsSource="{Binding ReceiptItems}" Margin="10" SelectedItem="{Binding SelectedReceiptItem}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Product" Width="200">
@@ -34,7 +39,43 @@
                     <TextBlock Text="{Binding ReceiptTotal}" FontSize="16" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <Button Content="Complete Receipt" Command="{Binding CompleteReceiptCommand}" Width="150" Margin="10"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
+                    <Button Content="Complete Receipt" Command="{Binding CompleteReceiptCommand}" Width="150" Margin="5"/>
+                    <Button Content="Delete Product" Command="{Binding DeleteProductCommand}" Width="150" Margin="5" IsEnabled="{Binding SelectedReceiptItem, Converter={StaticResource NullToBoolConverter}}"/>
+                    <Button Content="Clear Receipt" Command="{Binding ClearReceiptCommand}" Width="150" Margin="5"/>
+                </StackPanel>
+
+                <TextBlock Text="Receipts History" FontSize="20" FontWeight="Bold" Margin="10"/>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Filter by Date:" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <DatePicker SelectedDate="{Binding FilterDate}" Width="200" Margin="0,0,10,0"/>
+                </StackPanel>
+
+                <ListView ItemsSource="{Binding FilteredReceipts}" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date}" Width="150"/>
+                            <GridViewColumn Header="Total" DisplayMemberBinding="{Binding Total}" Width="100"/>
+                            <GridViewColumn Header="Products" Width="300">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ItemsControl ItemsSource="{Binding ProductReceipts}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Product.Name}" Margin="5"/>
+                                                        <TextBlock Text="x" Margin="5"/>
+                                                        <TextBlock Text="{Binding Quantity}" Margin="5"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </StackPanel>
         </Grid>
     </ScrollViewer>

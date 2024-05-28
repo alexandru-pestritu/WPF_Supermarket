@@ -157,11 +157,11 @@
     <Compile Include="Models\BusinessLayerLogic\CategoriesBLL.cs" />
     <Compile Include="Models\BusinessLayerLogic\ManufacturerBLL.cs" />
     <Compile Include="Models\BusinessLayerLogic\ProductBLL.cs" />
+    <Compile Include="Models\BusinessLayerLogic\ReceiptBLL.cs" />
     <Compile Include="Models\BusinessLayerLogic\StockBLL.cs" />
     <Compile Include="Models\BusinessLayerLogic\UserBLL.cs" />
     <Compile Include="Services\BarcodeService.cs" />
     <Compile Include="Services\CountryService.cs" />
-    <Compile Include="Services\ReceiptManager.cs" />
     <Compile Include="Services\UserSession.cs" />
     <Compile Include="ViewModels\CategoriesViewModel.cs" />
     <Compile Include="ViewModels\ManufacturersViewModel.cs" />

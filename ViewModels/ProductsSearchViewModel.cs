@@ -17,6 +17,7 @@ namespace WPF_Supermarket.ViewModels
             private readonly ProductBLL _productBLL;
             private readonly CategoriesBLL _categoryBLL;
             private readonly ManufacturerBLL _manufacturerBLL;
+            private readonly ReceiptsBLL _receiptsBLL;
             private string _searchName;
             private string _searchBarcode;
             private Manufacturer _selectedManufacturer;
@@ -32,6 +33,7 @@ namespace WPF_Supermarket.ViewModels
                 _productBLL = new ProductBLL();
                 _categoryBLL = new CategoriesBLL();
                 _manufacturerBLL = new ManufacturerBLL();
+                _receiptsBLL = new ReceiptsBLL();
                 _categories = new ObservableCollection<Category>(_categoryBLL.GetAllCategories());
                 _manufacturers = new ObservableCollection<Manufacturer>(_manufacturerBLL.GetAllManufacturers());
                 _searchResults = new ObservableCollection<Product>();
@@ -110,12 +112,13 @@ namespace WPF_Supermarket.ViewModels
                 {
                     var productReceipt = new ProductReceipt
                     {
+                        ProductId = SelectedProduct.Id,
                         Product = SelectedProduct,
                         Quantity = ProductQuantity,
                         Subtotal = SelectedProduct.Inventory.FirstOrDefault()?.SellingPrice * ProductQuantity ?? 0
                     };
 
-                    ReceiptManager.Instance.AddProductToReceipt(productReceipt);
+                    _receiptsBLL.AddProductToReceipt(productReceipt);
                     ProductQuantity = 0;
                 }
             }

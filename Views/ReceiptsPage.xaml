@@ -6,9 +6,36 @@
       xmlns:local="clr-namespace:WPF_Supermarket.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ReceiptsPage">
+      Title="ReceiptsPage"
+      Background="#f5f5f5">
 
-    <Grid>
-        <TextBlock Text="Receipts Page" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Margin="10">
+            <StackPanel>
+                <TextBlock Text="Current Receipt" FontSize="20" FontWeight="Bold" Margin="10"/>
+                <ListView ItemsSource="{Binding ReceiptItems}" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Product" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Product.Name}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="100"/>
+                            <GridViewColumn Header="Subtotal" DisplayMemberBinding="{Binding Subtotal}" Width="100"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Total:" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding ReceiptTotal}" FontSize="16" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Button Content="Complete Receipt" Command="{Binding CompleteReceiptCommand}" Width="150" Margin="10"/>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>

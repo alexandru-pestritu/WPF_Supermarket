@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPF_Supermarket.Services;
 
 namespace WPF_Supermarket.Models.BusinessLayerLogic
 {
@@ -34,13 +35,48 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
         {
             using (var context = new SupermarketDBContext())
             {
-                context.Receipts.Add(receipt);
+                // Ensure Cashier is not null
+                var cashier = context.Users.Find(UserSession.Instance.UserId);
+                if (cashier == null)
+                {
+                    throw new InvalidOperationException("Cashier not found in the database.");
+                }
+
+                // Create new Receipt instance
+                var newReceipt = new Receipt
+                {
+                    Date = receipt.Date,
+                    CashierId = cashier.Id,
+                    Total = receipt.Total,
+                    Cashier = cashier,
+                    ProductReceipts = new List<ProductReceipt>()
+                };
+
+                // Add Receipt to context
+                context.Receipts.Add(newReceipt);
                 context.SaveChanges();
 
+                // Add ProductReceipts to context
                 foreach (var item in _currentReceiptItems)
                 {
-                    item.ReceiptId = receipt.Id;
-                    context.ProductReceipts.Add(item);
+                    // Ensure Product is not null
+                    var product = context.Products.Find(item.ProductId);
+                    if (product == null)
+                    {
+                        throw new InvalidOperationException($"Product with ID {item.ProductId} not found in the database.");
+                    }
+
+                    // Create new ProductReceipt instance
+                    var newProductReceipt = new ProductReceipt
+                    {
+                        ProductId = product.Id,
+                        Quantity = item.Quantity,
+                        Subtotal = item.Subtotal,
+                        ReceiptId = newReceipt.Id,
+                        Product = product
+                    };
+
+                    context.ProductReceipts.Add(newProductReceipt);
 
                     UpdateStockQuantities(context, item.ProductId, item.Quantity);
                 }
@@ -48,6 +84,7 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
                 context.SaveChanges();
             }
 
+            // Clear current receipt
             ClearReceipt();
         }
 

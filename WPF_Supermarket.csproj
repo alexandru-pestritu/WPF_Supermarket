@@ -167,6 +167,7 @@
     <Compile Include="ViewModels\ManufacturersViewModel.cs" />
     <Compile Include="ViewModels\ProductsSearchViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\ReceiptViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="Views\CategoriesPage.xaml.cs">
       <DependentUpon>CategoriesPage.xaml</DependentUpon>

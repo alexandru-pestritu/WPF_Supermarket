@@ -16,24 +16,30 @@ namespace WPF_Supermarket.ViewModels
     {
         private readonly UserBLL _userBLL;
         private ObservableCollection<User> _users;
+        private ObservableCollection<DailyRevenue> _dailyRevenues;
         private User _selectedUser;
         private User _currentUser;
+        private DateTime _selectedMonth;
         private bool _isUserSelected;
 
         public RelayCommand AddUserCommand { get; private set; }
         public RelayCommand EditUserCommand { get; private set; }
         public RelayCommand DeleteUserCommand { get; private set; }
+        public RelayCommand LoadRevenuesCommand { get; private set; }
 
         public UsersViewModel()
         {
             _userBLL = new UserBLL();
             _users = new ObservableCollection<User>();
+            _dailyRevenues = new ObservableCollection<DailyRevenue>();
             _currentUser = new User();
+            _selectedMonth = DateTime.Now;
             LoadUsers();
 
             AddUserCommand = new RelayCommand(_ => AddUser(), _ => !IsUserSelected);
             EditUserCommand = new RelayCommand(_ => EditUser(), _ => IsUserSelected);
             DeleteUserCommand = new RelayCommand(_ => DeleteUser(), _ => IsUserSelected);
+            LoadRevenuesCommand = new RelayCommand(_ => LoadRevenues(), _ => IsUserSelected);
         }
 
         public ObservableCollection<User> Users
@@ -42,6 +48,16 @@ namespace WPF_Supermarket.ViewModels
             set
             {
                 _users = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<DailyRevenue> DailyRevenues
+        {
+            get => _dailyRevenues;
+            set
+            {
+                _dailyRevenues = value;
                 OnPropertyChanged();
             }
         }
@@ -83,6 +99,16 @@ namespace WPF_Supermarket.ViewModels
             }
         }
 
+        public DateTime SelectedMonth
+        {
+            get => _selectedMonth;
+            set
+            {
+                _selectedMonth = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool IsUserSelected
         {
             get => _isUserSelected;
@@ -106,7 +132,7 @@ namespace WPF_Supermarket.ViewModels
 
         private void AddUser()
         {
-            if(ValidateUser(CurrentUser))
+            if (ValidateUser(CurrentUser))
             {
                 _userBLL.AddUser(CurrentUser);
                 LoadUsers();
@@ -136,6 +162,19 @@ namespace WPF_Supermarket.ViewModels
             }
         }
 
+        private void LoadRevenues()
+        {
+            if (SelectedUser != null)
+            {
+                var revenues = _userBLL.GetDailyRevenuesByUserAndMonth(SelectedUser.Id, SelectedMonth.Year, SelectedMonth.Month);
+                DailyRevenues.Clear();
+                foreach (var revenue in revenues)
+                {
+                    DailyRevenues.Add(revenue);
+                }
+            }
+        }
+
         private bool ValidateUser(User user)
         {
             if (string.IsNullOrWhiteSpace(user.Name) || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.UserType))
@@ -151,7 +190,7 @@ namespace WPF_Supermarket.ViewModels
             AddUserCommand.RaiseCanExecuteChanged();
             EditUserCommand.RaiseCanExecuteChanged();
             DeleteUserCommand.RaiseCanExecuteChanged();
+            LoadRevenuesCommand.RaiseCanExecuteChanged();
         }
-
     }
 }

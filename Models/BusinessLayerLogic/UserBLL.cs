@@ -50,5 +50,31 @@ namespace WPF_Supermarket.Models.BusinessLayerLogic
                 _context.SaveChanges();
             }
         }
+
+        public IEnumerable<DailyRevenue> GetDailyRevenuesByUserAndMonth(int userId, int year, int month)
+        {
+            var receipts = _context.Receipts
+                .Where(r => r.CashierId == userId && r.Date.Year == year && r.Date.Month == month)
+                .GroupBy(r => DbFunctions.TruncateTime(r.Date))
+                .Select(g => new DailyRevenue
+                {
+                    Date = g.Key.Value,
+                    Total = g.Sum(r => r.Total)
+                })
+                .ToList();
+
+            var daysInMonth = Enumerable.Range(1, DateTime.DaysInMonth(year, month))
+                                        .Select(day => new DateTime(year, month, day))
+                                        .ToList();
+
+            var dailyRevenues = daysInMonth.Select(day => new DailyRevenue
+            {
+                Date = day,
+                Total = receipts.FirstOrDefault(r => r.Date == day)?.Total ?? 0
+            }).ToList();
+
+            return dailyRevenues;
+        }
     }
 }
+

@@ -50,6 +50,18 @@
                     <Button Content="Edit User" Command="{Binding EditUserCommand}" Margin="5"/>
                     <Button Content="Delete User" Command="{Binding DeleteUserCommand}" Margin="5"/>
                 </StackPanel>
+                <TextBlock Text="Revenue by User" Margin="10 20 0 0" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="Pick Month" Margin="10 10 0 0" FontSize="14"/>
+                <DatePicker SelectedDate="{Binding SelectedMonth}" Margin="10" />
+                <Button Content="Load Revenues" Command="{Binding LoadRevenuesCommand}" Margin="10"/>
+                <ListView ItemsSource="{Binding DailyRevenues}" Margin="10" Height="200">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date}" Width="Auto"/>
+                            <GridViewColumn Header="Total" DisplayMemberBinding="{Binding Total}" Width="Auto"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </StackPanel>
         </Grid>
     </ScrollViewer>

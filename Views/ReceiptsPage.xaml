@@ -54,6 +54,7 @@
                 <ListView ItemsSource="{Binding FilteredReceipts}" Margin="10">
                     <ListView.View>
                         <GridView>
+                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="50"/>
                             <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date}" Width="150"/>
                             <GridViewColumn Header="Total" DisplayMemberBinding="{Binding Total}" Width="100"/>
                             <GridViewColumn Header="Products" Width="300">

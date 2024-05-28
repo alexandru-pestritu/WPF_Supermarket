@@ -160,6 +160,7 @@
     <Compile Include="Models\BusinessLayerLogic\ReceiptBLL.cs" />
     <Compile Include="Models\BusinessLayerLogic\StockBLL.cs" />
     <Compile Include="Models\BusinessLayerLogic\UserBLL.cs" />
+    <Compile Include="Models\DailyRevenue.cs" />
     <Compile Include="Services\BarcodeService.cs" />
     <Compile Include="Services\CountryService.cs" />
     <Compile Include="Services\UserSession.cs" />
